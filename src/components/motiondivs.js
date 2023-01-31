@@ -8,6 +8,33 @@ import { state } from "./../state/state"
 
 
 //Input Divs
+function ChooseDirOrder(props) {
+    return  <div className="dropdown order-select">
+                <button data-bs-toggle="dropdown">
+                    <div>
+                        { props.dirOrder ?
+                            <p>{props.dirOrder}</p>:
+                            <p className='grey-text'>No Order Chosen</p>
+                        }
+                    </div>
+                </button>
+                <div className="dropdown-menu">
+                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.introduced)}>
+                        Introduced
+                    </button>
+                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.revIntroduced)}>
+                        Reverse Introduced
+                    </button>
+                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.alphabetical)}>
+                        Alphabetical
+                    </button>
+                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.revAlphabetical)}>
+                        Reverse Alphabetical
+                    </button>
+                </div>
+            </div>
+}
+
 function MakeExtendModDiv(props) {
     const [min, setMin] = useState("");
     const [sec, setSec] = useState("");
@@ -64,12 +91,18 @@ function MakeVotingDiv(props) {
     const [min, setMin] = useState("");
     const [sec, setSec] = useState("");
     const [speakers, setSpeakers] = useState("");
+    const [dirOrder, setDirOrder] = useState(null);
     
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec)) || isNaN(Number(speakers))) {
             console.log("we got a not a number ovah here!");
         } else {
-            state.addMotion(new Voting(props.delegate, DirOrder.introduced, Number(speakers), Number(60 * min + sec)));
+            if (dirOrder) {
+                state.addMotion(new Voting(props.delegate, dirOrder, Number(speakers), Number(60 * min + sec)));
+            } else {
+                state.addMotion(new Voting(props.delegate, DirOrder.introduced, Number(speakers), Number(60 * min + sec)));
+            }
+            
             props.setDel(null);
             setMin("");
             setSec("");
@@ -78,6 +111,7 @@ function MakeVotingDiv(props) {
     }
 
     return  [<div className="motion-inputs" key="votingInput">
+                <ChooseDirOrder dirOrder={dirOrder} setDirOrder={setDirOrder} />
                 <p className="motion-input">
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setMin(e.target.value)} value={min}/> Min 
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSec(e.target.value)} value={sec}/> Sec 
@@ -270,10 +304,13 @@ function ExtendUnmodDiv(props) {
 }
 
 function VotingDiv(props) {
-    return  <p className="motion-text">
+    return  [<p className='motion-text mod-topic' key="topic">
+                <span>{props.motion.order}</span>
+            </p>,
+            <p className="motion-text" key="time">
                 <span>{stringify(props.motion.speakingTime)}</span>  Speaking Time 
                 <span>{stringify(props.motion.numSpeakers)}</span>  Speakers For/Against 
-            </p>
+            </p>]
 }
 
 function UnmodDiv(props) {
@@ -290,7 +327,6 @@ function ModDiv(props) {
                     <span>{props.motion.topic}</span>:
                     <span className='grey-text'>No Topic Given</span> 
                 }
-                
             </p>
             ,<p className="motion-text" key="modifications">
                 <span>{stringify(props.motion.min)}</span> Min 

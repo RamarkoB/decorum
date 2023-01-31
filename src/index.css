@@ -130,6 +130,11 @@ p.motion-input:last-of-type {
     margin: 0px 0px 10px;
 }
 
+.order-select {
+    border-top: 0!important;
+    border-bottom: 2px solid black;
+}
+
 .card.mini {
     cursor: pointer;
 }
