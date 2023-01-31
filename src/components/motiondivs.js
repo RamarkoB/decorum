@@ -374,7 +374,7 @@ function MotionDiv(props) {
                     <p className='propose-text grey-text'> No Delegate Chosen </p>
                 }
                 {getMotion()}
-                <VoteModule index={props.index} type={"motion"}/>
+                <VoteModule index={props.index} removable={true} type={"motion"}/>
             </div>
 }
 

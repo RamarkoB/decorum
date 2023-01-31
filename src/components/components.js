@@ -1,10 +1,10 @@
+import React, {useState} from "react";
 import { state } from "./../state/state"
 import { DirOrder } from "../state/directives";
 import { MakeMotionDiv, MotionDiv } from './motiondivs';
 import { MakeDirectiveDiv, DirectiveDiv, DirVoteSpeakDiv } from "./directivedivs"
 import { Attendence, Page, Status } from './../state/structs';
 import { Motions } from '../state/motions';
-import { useState } from 'react';
 
 function stringify(num) {
     return (num < 10 ? "0" + String(num) : String(num));
@@ -36,18 +36,29 @@ function VoteModule(props) {
         }
     }
 
+     if (props.removable) {
+        return  <ul className="list-inline pass-module">
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={pass}>Pass</button>
+                    </li>
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={fail}>Fail</button>
+                    </li>
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={remove}>Remove</button>
+                    </li>
+                </ul>
+     } else {
+        return  <ul className="list-inline pass-module">
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={pass}>Pass</button>
+                    </li>
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={fail}>Fail</button>
+                    </li>
+                </ul>
+     }
 
-    return  <ul className="list-inline pass-module">
-                <li className="list-inline-item">
-                    <button type="button" className="btn btn-demo" onClick={pass}>Pass</button>
-                </li>
-                <li className="list-inline-item">
-                    <button type="button" className="btn btn-demo" onClick={fail}>Fail</button>
-                </li>
-                <li className="list-inline-item">
-                    <button type="button" className="btn btn-demo" onClick={remove}>Remove</button>
-                </li>
-            </ul>
 }
 
 //Small Components
@@ -261,13 +272,19 @@ function SpeakersPage() {
 }
 
 function VotingPage() {
+    const [voteDirective, setVoteDirective] = useState("No");
+
     const directives = state.getDirectives(DirOrder.introduced).map((dir, index) =>
         <DirVoteSpeakDiv dir={dir} status={dir.status} index={index} key={index}/>
     );
 
-    // const speakerNum = state.speakers?
-    // <h1>{Math.min(state.speakers.numSpeakers, state.speakers.speakerNum + 1)} / {speakers.length} Speakers</h1>:
-    // <h1> No Speakers List</h1>;
+    const directiveVotes = state.getDirectives().map((dir, index) =>
+    <DirectiveDiv dir={dir} removable={false} status={dir.status} index={index} key={index}/>
+);
+
+    const speakerNum = state.dirState.speakers ?
+    <h1>{Math.min(state.dirState.numSpeakers, state.dirState.speakerNum + 1)} / {state.dirState.numSpeakers} Speakers</h1>:
+    <h1> No Speakers List</h1>;
 
     const speakerChange = <ul className="list-inline">
                             <li className="list-inline-item">
@@ -285,20 +302,37 @@ function VotingPage() {
     function nextSpeaker() {
         state.nextSpeaker();
     }
+
+    function voteDirectiveDiv(){
+        switch (voteDirective) {
+            case "No":
+                return <button type="button" className="btn btn-demo vote-directive" onClick={() => setVoteDirective("All")}>Vote on Directives</button>
+            default:
+                return <button type="button" className="btn btn-demo vote-directive" onClick={() => setVoteDirective("No")}>Return to Speeches</button>
+        }
+    }
+
     
     return  [<div id="dirSpeakersList" className="left side col-4" key="speakersList">
                 {directives}
             </div>,
             <div id="dirSpeakersMain" className="side col-8" key="modMain">
-                <TimerDiv />
-                {speakerChange}
-                {/* {speakerNum} */}
+                {
+                    voteDirective === "No"?
+                    [voteDirectiveDiv(),
+                    <TimerDiv />,
+                    speakerChange,
+                    speakerNum]:
+                    [voteDirectiveDiv(),
+                    directiveVotes]
+                }
+   
             </div>]
 }
 
 function DirectivesPage() {
     const directives = state.getDirectives().map((dir, index) =>
-        <DirectiveDiv dir={dir} status={dir.status} index={index} key={index}/>
+        <DirectiveDiv dir={dir} removable={true} status={dir.status} index={index} key={index}/>
     );
 
     // function pastDirectives() {

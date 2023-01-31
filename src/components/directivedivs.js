@@ -37,7 +37,7 @@ function DirectiveDiv(props){
 
     return  <div className={statusClass()}>
                 <h3><input placeholder="New Directive..." value={props.dir.name} onChange={(e)=>updateName(e.target.value)}/></h3>
-                <VoteModule index={props.index} type={"directive"}/>
+                <VoteModule index={props.index} removable={props.removable} type={"directive"}/>
             </div>
 }
 

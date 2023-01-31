@@ -280,6 +280,11 @@ input:invalid {
     margin-left: 0;
 }
 
+.vote-directive {
+    width: fit-content;
+    margin-bottom: 16px;
+}
+
 .add-motion, #directivesList #add-directive {
     width: 100%;
     padding: 0.5rem 2rem !important;
