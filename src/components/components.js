@@ -231,6 +231,9 @@ function DelegatePage() {
 function UnmodPage() {
   return <div id="unmodMain">
             <TimerDiv />
+            {state.timer.status === Status.Done?
+                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                []}
         </div>
 }
 
@@ -268,6 +271,9 @@ function SpeakersPage() {
                 <TimerDiv />
                 {speakerChange}
                 {speakerNum}
+                {state.speakers.numSpeakers === state.speakers.speakerNum?
+                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                []}
             </div>]
 }
 
@@ -306,9 +312,9 @@ function VotingPage() {
     function voteDirectiveDiv(){
         switch (voteDirective) {
             case "No":
-                return <button type="button" className="btn btn-demo vote-directive" onClick={() => setVoteDirective("All")}>Vote on Directives</button>
+                return <button type="button" className="btn btn-demo fit-button" onClick={() => setVoteDirective("All")}>Vote on Directives</button>
             default:
-                return <button type="button" className="btn btn-demo vote-directive" onClick={() => setVoteDirective("No")}>Return to Speeches</button>
+                return <button type="button" className="btn btn-demo fit-button" onClick={() => setVoteDirective("No")}>Return to Speeches</button>
         }
     }
 
@@ -326,7 +332,9 @@ function VotingPage() {
                     [voteDirectiveDiv(),
                     directiveVotes]
                 }
-   
+                {state.dirState.numSpeakers === state.dirState.speakerNum?
+                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                []}
             </div>]
 }
 

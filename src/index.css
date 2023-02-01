@@ -257,6 +257,7 @@ input:invalid {
 /* Unmod CSS */
 #unmodMain {
     margin: auto;
+    text-align: center;
 }
 
 #unmodMain #timer-min, #unmodMain #timer-sec {
@@ -273,6 +274,8 @@ input:invalid {
 
 
 /* Motions CSS */
+
+
 #name-directive {
     width: 100%;
     text-align: center;
@@ -280,7 +283,7 @@ input:invalid {
     margin-left: 0;
 }
 
-.vote-directive {
+.fit-button {
     width: fit-content;
     margin-bottom: 16px;
 }
