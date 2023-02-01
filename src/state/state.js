@@ -283,10 +283,10 @@ class State {
         this.toPage(Page.speakers);
     }
 
-    genVoting(numSpeakers, speakingTime) {
+    genVoting(numSpeakers, speakingTime, order) {
         this.setTimer(0, speakingTime);
         this.pauseTimer();
-        this.makeDirSpeakersList(numSpeakers);
+        this.makeDirSpeakersList(numSpeakers, order);
         this.toPage(Page.directives);
     }
 
@@ -396,7 +396,7 @@ class State {
                 this.genMod(motion.numSpeakers, motion.speakingTime);
                 break;
             case Motions.Voting:
-                this.genVoting(motion.numSpeakers, motion.speakingTime);
+                this.genVoting(motion.numSpeakers, motion.speakingTime, motion.order);
                 break;
             case Motions.Introduce:
                 this.toPage(Page.directives);
@@ -451,7 +451,7 @@ class State {
 
 
     getDirectives(order = DirOrder.introduced) {
-        return this.dirState.getCurrDirectives();
+        return this.dirState.getCurrDirectives(order);
     }
 
     getPastDirectives(order = DirOrder.introduced) {
@@ -471,8 +471,8 @@ class State {
     } 
 
 
-    makeDirSpeakersList(num){
-        this.dirState.makeDirSpeakersList(num);
+    makeDirSpeakersList(num, order){
+        this.dirState.makeDirSpeakersList(num, order);
     }
 }
 

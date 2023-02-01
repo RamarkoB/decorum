@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useRef } from "react"; 
 import { state } from "./../state/state"
-import { DirOrder } from "../state/directives";
+// import { DirOrder } from "../state/directives";
 import { MakeMotionDiv, MotionDiv } from './motiondivs';
 import { MakeDirectiveDiv, DirectiveDiv, DirVoteSpeakDiv } from "./directivedivs"
 import { Attendence, Page, Status } from './../state/structs';
@@ -291,11 +291,11 @@ function SpeakersPage() {
 function VotingPage() {
     const [voteDirective, setVoteDirective] = useState("No");
 
-    const directives = state.getDirectives(DirOrder.introduced).map((dir, index) =>
+    const directives = state.getDirectives(state.currentMotion.order).map((dir, index) =>
         <DirVoteSpeakDiv dir={dir} status={dir.status} index={index} key={index}/>
     );
 
-    const directiveVotes = state.getDirectives().map((dir, index) =>
+    const directiveVotes = state.getDirectives(state.currentMotion.order).map((dir, index) =>
     <DirectiveDiv dir={dir} removable={false} status={dir.status} index={index} key={index}/>
 );
 
@@ -367,7 +367,7 @@ function DirectivesPage() {
     // }
 
     function voteOnDirective() {
-        state.genVoting(state.currentMotion.numSpeakers, state.currentMotion.speakingTime);
+        state.genVoting(state.currentMotion.numSpeakers, state.currentMotion.speakingTime, state.currentMotion.order);
         state.toPage(Page.speakers);
     }
 

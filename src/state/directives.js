@@ -126,19 +126,20 @@ class DirState {
 
     //multiple directive methods
     getCurrDirectives(order = DirOrder.introduced) {
+        const directives = [...this.currDirectives];
         switch (order) {
             case DirOrder.introduced:
-                return this.currDirectives;
+                return directives;
             case DirOrder.revIntroduced:
-                return this.currDirectives.reverse();
+                return directives.reverse();
             case DirOrder.alphabetical:
-                return this.currDirectives.sort((a,b) => {
+                return directives.sort((a,b) => {
                     if (a.name > b.name) { return 1; }
                     else if (a.name < b.name) { return -1;}
                     else {return 0;}
                 });
             case DirOrder.revAlphabetical:
-                return this.currDirectives.sort((a,b) => {
+                return directives.sort((a,b) => {
                     if (a.name > b.name) { return 1; }
                     else if (a.name < b.name) { return -1;}
                     else {return 0;}
@@ -149,19 +150,20 @@ class DirState {
     }
 
     getPastDirectives(order = DirOrder.introduced) {
+        const directives = [...this.pastDirectives];
         switch (order) {
             case DirOrder.introduced:
-                return this.pastDirectives;
+                return directives;
             case DirOrder.revIntroduced:
-                return this.pastDirectives.reverse();
+                return directives.reverse();
             case DirOrder.alphabetical:
-                return this.pastDirectives.sort((a,b) => {
+                return directives.sort((a,b) => {
                     if (a.name > b.name) { return 1; }
                     else if (a.name < b.name) { return -1;}
                     else {return 0;}
                 });
             case DirOrder.revAlphabetical:
-                return this.pastDirectives.sort((a,b) => {
+                return directives.sort((a,b) => {
                     if (a.name > b.name) { return 1; }
                     else if (a.name < b.name) { return -1;}
                     else {return 0;}
