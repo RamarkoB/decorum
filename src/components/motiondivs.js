@@ -42,7 +42,13 @@ function MakeExtendModDiv(props) {
 
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("Cannot Read Non-Numbers!");
+        } else if (Number(min) === 0 && Number(sec) === 0) {
+            props.setError("Cannot Create an Mod with No Time!");
+        } else if ((Number(min) * 60 + Number(sec)) % state.currentMotion.speakingTime !== 0) {
+            props.setError("This Mod is not Divisible!");
+        } else if (((Number(min) * 60 + Number(sec)) * 2) > state.currentMotion.overallTime ) {
+            props.setError("This Extension is Greater than Half!");
         } else {
             state.addMotion(new ExtendMod(props.delegate, state.currentMotion.topic, Number(min), Number(sec), state.currentMotion.speakingTime));
             props.setDel(null);
@@ -58,7 +64,7 @@ function MakeExtendModDiv(props) {
                 </p>
             </div>, 
             <button className='btn add-motion' onClick={addMotion} key="modButton">
-                    Add Motion
+                    {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -68,7 +74,11 @@ function MakeExtendUnmodDiv(props) {
 
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("Cannot Read Non-Numbers!");
+        } else if (Number(min) === 0 && Number(sec) === 0) {
+            props.setError("Cannot Create an Unmod with No Time!");
+        } else if (((Number(min) * 60 + Number(sec)) * 2) > state.currentMotion.overallTime ) {
+            props.setError("This Extension is Greater than Half!");
         } else {
             state.addMotion(new ExtendUnmod(props.delegate, Number(min), Number(sec)));
             props.setDel(null);
@@ -84,7 +94,7 @@ function MakeExtendUnmodDiv(props) {
                 </p>
             </div>, 
             <button className='btn add-motion' onClick={addMotion} key="UnmodButton">
-                    Add Motion
+                    {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -96,7 +106,7 @@ function MakeVotingDiv(props) {
     
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec)) || isNaN(Number(speakers))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("Cannot Read Non-Numbers!");
         } else {
             if (dirOrder) {
                 state.addMotion(new Voting(props.delegate, dirOrder, Number(speakers), Number(60 * min + sec)));
@@ -122,7 +132,7 @@ function MakeVotingDiv(props) {
                 </p>
             </div>,
             <button className='btn add-motion' onClick={addMotion} key="votingButton">
-                    Add Motion
+                    {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -132,7 +142,9 @@ function MakeUnmodDiv(props) {
 
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("This Unmod has Non-Numbers!");
+        } else if (Number(min) === 0 && Number(sec) === 0) {
+            props.setError("This Mod has No Time!");
         } else {
             state.addMotion(new Unmod(props.delegate, Number(min), Number(sec)));
             props.setDel(null);
@@ -148,7 +160,7 @@ function MakeUnmodDiv(props) {
                 </p>
             </div>, 
             <button className='btn add-motion' onClick={addMotion} key="UnmodButton">
-                    Add Motion
+                    {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -157,7 +169,7 @@ function MakeRoundRobinDiv(props) {
 
     function addMotion() {
         if (isNaN(Number(speakingTime))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("This Round Robin has Non-Numbers!");
         } else {
             state.addMotion(new RoundRobin(props.delegate, Number(speakingTime)));
             props.setDel(null);
@@ -171,7 +183,7 @@ function MakeRoundRobinDiv(props) {
                 </p>
             </div>,
             <button className='btn add-motion' onClick={addMotion} key="roundRobinButton">
-                Add Motion
+                {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -183,7 +195,11 @@ function MakeModDiv(props) {
 
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec)) || isNaN(Number(speakingTime))) {
-            console.log("we got a not a number ovah here!");
+            props.setError("This Mod has Non-Numbers!");
+        } else if (Number(min) === 0 && Number(sec) === 0) {
+            props.setError("This Mod has No Time!");
+        } else if ((Number(min) * 60 + Number(sec)) % Number(speakingTime) !== 0) {
+            props.setError("This Mod is not Divisible!");
         } else {
             state.addMotion(new Mod(props.delegate, topic, Number(min), Number(sec), Number(speakingTime)));
             props.setDel(null);
@@ -206,7 +222,7 @@ function MakeModDiv(props) {
                 <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSpeakingTime(e.target.value)} value={speakingTime}/> Speaking Time </p>
             </div>, 
             <button className='btn add-motion' onClick={addMotion} key="modButton">
-                    Add Motion
+                {props.error ? props.error: "Add Motion"}
             </button>]
 }
 
@@ -214,21 +230,65 @@ function MakeMotionDiv(props) {
     const [expanded, setExpand] = useState(false);
     const [search, setSearch] = useState("");
     const [delegate, setDel] = useState(null);
+    const [error, setError] = useState(null);
+
+    if (error) {
+        setTimeout(() => {
+            setError(null);
+          }, 1000)
+    }
+
+
     const present = state.filterPresent(search);
     const searchInput = useRef(null);
 
     function getMotionInput() {
         switch (props.motion) {
-            case Motions.IntroduceVoting:   return <MakeVotingDiv delegate={delegate} setDel={setDel} key="votingInputs"/>;
-            case Motions.ExtendMod:         return <MakeExtendModDiv delegate={delegate} setDel={setDel} key="votingInputs"/>;
-            case Motions.ExtendUnmod:       return <MakeExtendUnmodDiv delegate={delegate} setDel={setDel} key="votingInputs"/>;
-            case Motions.Voting:            return <MakeVotingDiv delegate={delegate} setDel={setDel} key="votingInputs"/>;
-            case Motions.Unmod:             return <MakeUnmodDiv delegate={delegate} setDel={setDel} key="unmodInputs"/>;
-            case Motions.Mod:               return <MakeModDiv delegate={delegate} setDel={setDel} key="modInputs"/>;
-            case Motions.RoundRobin:        return <MakeRoundRobinDiv delegate={delegate} setDel={setDel} key="roundRobinInputs"/>;
+            case Motions.IntroduceVoting:   return <MakeVotingDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="IntroduceVotingInputs"/>;
+            case Motions.ExtendMod:         return <MakeExtendModDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="extendModInputs"/>;
+            case Motions.ExtendUnmod:       return <MakeExtendUnmodDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="extendUnmodInputs"/>;
+            case Motions.Voting:            return <MakeVotingDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="votingInputs"/>;
+            case Motions.Unmod:             return <MakeUnmodDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="unmodInputs"/>;
+            case Motions.Mod:               return <MakeModDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="modInputs"/>;
+            case Motions.RoundRobin:        return <MakeRoundRobinDiv 
+                                                        delegate={delegate} 
+                                                        setDel={setDel} 
+                                                        error={error} 
+                                                        setError={setError} 
+                                                        key="roundRobinInputs"/>;
             default:                    
                 return  <button className='btn add-motion' onClick={addMotion} key="button">
-                            Add Motion
+                            {props.error ? props.error: "Add Motion"}
                         </button>;
         }
     }
@@ -237,9 +297,6 @@ function MakeMotionDiv(props) {
         switch (props.motion) {
             case Motions.Introduce:
                 state.addMotion(new Introduce(delegate));
-                break;
-            case Motions.RoundRobin:
-                state.addMotion(new RoundRobin(delegate));
                 break;
             case Motions.StrawPoll:
                 state.addMotion(new StrawPoll(delegate));
@@ -272,7 +329,7 @@ function MakeMotionDiv(props) {
           <button className="dropdown-item text-center text-uppercase"> No Delegates Found </button>]:
       <button className="dropdown-item text-center text-uppercase"> No Delegates Present </button>;
 
-    return  <div className="card mini motion" >
+    return  <div className={error? "card mini motion pink" : "card mini motion"} >
                 {expanded? 
                     [<p key="Motion Name" onClick={switchExpand}>{props.motion}</p>,
                     <div key="dropdown" className="dropdown">
@@ -282,7 +339,6 @@ function MakeMotionDiv(props) {
                                     <p>{delegate}</p>:
                                     <p className='grey-text'>No Delegate Chosen</p>
                                 }
-                                
                             </div>
                         </button>
                         <div className="dropdown-menu">
