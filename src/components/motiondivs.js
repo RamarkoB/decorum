@@ -1,5 +1,6 @@
 //Imports
 import React, { useState } from 'react';
+import { useRef } from "react";
 import { Motions, ExtendMod, ExtendUnmod, Voting, Introduce, Unmod, StrawPoll, RoundRobin, Mod } from '../state/motions';
 import { Vote } from "../state/structs"
 import { DirOrder } from "../state/directives";
@@ -214,6 +215,7 @@ function MakeMotionDiv(props) {
     const [search, setSearch] = useState("");
     const [delegate, setDel] = useState(null);
     const present = state.filterPresent(search);
+    const searchInput = useRef(null);
 
     function getMotionInput() {
         switch (props.motion) {
@@ -256,8 +258,12 @@ function MakeMotionDiv(props) {
         }
     }
 
+    function handleClick() {
+        searchInput.current.focus();
+    }
+
     const presentDels = (state.getPresent().length > 0) ?
-      [<input placeholder='Search...' onChange={(e) => setSearch(e.target.value)} key="getDel"/>,
+      [<input ref={searchInput} placeholder='Search...' onChange={(e) => setSearch(e.target.value)} key="getDel"/>,
       present.length > 0 ? 
           present.map(del => 
               <button className="dropdown-item text-center text-uppercase" onClick={() => setDel(del.getName())} key={del.getName()}>
@@ -270,7 +276,7 @@ function MakeMotionDiv(props) {
                 {expanded? 
                     [<p key="Motion Name" onClick={switchExpand}>{props.motion}</p>,
                     <div key="dropdown" className="dropdown">
-                        <button data-bs-toggle="dropdown">
+                        <button data-bs-toggle="dropdown" onClick={handleClick}>
                             <div className="motionDelegate">
                                 { delegate ?
                                     <p>{delegate}</p>:
