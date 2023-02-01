@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { useRef } from "react"; 
 import { state } from "./../state/state"
 import { DirOrder } from "../state/directives";
 import { MakeMotionDiv, MotionDiv } from './motiondivs';
@@ -81,6 +82,7 @@ function DelegateDiv(props) {
 function SpeakerDiv(props) {
     const [search, setSearch] = useState("");
     const present = state.filterPresent(search);
+    const searchInput = useRef(null);
 
     function changeDel(del){
         const index = state.getDelegates().indexOf(del);
@@ -89,8 +91,12 @@ function SpeakerDiv(props) {
         props.parent.addSpeaker(props.index, index);
     }
 
+    function handleClick() {
+        searchInput.current.focus();
+    }
+
     const presentDels = (state.getPresent().length > 0) ?
-    [<input placeholder='Search...' onChange={(e) => setSearch(e.target.value)} key="search" ></input>,
+    [<input ref={searchInput} placeholder='Search...' onChange={(e) => setSearch(e.target.value)} key="search" ></input>,
     present.length > 0 ? 
         present.map(del => 
             <button className="dropdown-item text-center text-uppercase" onClick={() => changeDel(del)} key={del.getName()}>
@@ -101,7 +107,7 @@ function SpeakerDiv(props) {
     
 
   return  <div className="dropdown">
-              <button data-bs-toggle="dropdown">
+              <button data-bs-toggle="dropdown" onClick={handleClick}>
                   <div className={props.spoken? "card mini speaker pink" : "card mini speaker"}>
                       <p>{props.name}</p>
                   </div>

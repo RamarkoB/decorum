@@ -302,7 +302,7 @@ input:invalid {
     font-size: 14px; 
 }
 
-.add-motion:hover, #directivesList #add-directive:hover {
+.add-motion:hover, #directivesList #add-directive:hover, #autoplay:hover {
     border-top:  black solid 2px;
     color: black;
     background-color: transparent;
