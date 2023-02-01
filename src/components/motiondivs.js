@@ -107,6 +107,8 @@ function MakeVotingDiv(props) {
     function addMotion() {
         if (isNaN(Number(min)) || isNaN(Number(sec)) || isNaN(Number(speakers))) {
             props.setError("Cannot Read Non-Numbers!");
+        } else if (Number(min) === 0 && Number(sec) === 0) {
+            props.setError("Cannot enter Voting Procedure with No Time!");
         } else {
             if (dirOrder) {
                 state.addMotion(new Voting(props.delegate, dirOrder, Number(speakers), Number(60 * min + sec)));
