@@ -184,6 +184,11 @@ function TimerDiv() {
                           <button type="button" className="btn btn-demo" onClick={buttonCheck}>{statusCheck()}</button>
                       </li>
                   </ul>
+                  {state.currentMotion.type === Motions.Unmod ? []:
+                  state.config.autoplay? 
+                  <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = false}}>Turn Off Autoplay on Next Speaker</button>:
+                  <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = true}}>Turn On Autoplay on Next Speaker</button>
+                  }
               </div>
           </div>
       
@@ -232,7 +237,7 @@ function UnmodPage() {
   return <div id="unmodMain">
             <TimerDiv />
             {state.timer.status === Status.Done?
-                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                [<button className="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
                 []}
         </div>
 }
@@ -272,7 +277,7 @@ function SpeakersPage() {
                 {speakerChange}
                 {speakerNum}
                 {state.speakers.numSpeakers === state.speakers.speakerNum?
-                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                [<button className="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
                 []}
             </div>]
 }
@@ -333,7 +338,7 @@ function VotingPage() {
                     directiveVotes]
                 }
                 {state.dirState.numSpeakers === state.dirState.speakerNum?
-                [<button class="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
+                [<button className="btn btn-demo fit-button" onClick={() => state.toPage(Page.motions)}>Return to Motions</button>]: 
                 []}
             </div>]
 }

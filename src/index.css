@@ -288,7 +288,7 @@ input:invalid {
     margin-bottom: 16px;
 }
 
-.add-motion, #directivesList #add-directive {
+.add-motion, #directivesList #add-directive, #autoplay {
     width: 100%;
     padding: 0.5rem 2rem !important;
     margin: 0;

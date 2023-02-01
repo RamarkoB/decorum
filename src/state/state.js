@@ -3,9 +3,17 @@ import { DirOrder, DirState} from "./directives";
 import { Motions } from "./motions";
 import committees from "./committees";
 
+class Config {
+    constructor() {
+        this.autoplay = true;
+    }
+}
+
 //State
 class State {
     constructor(delegates){
+        this.config = new Config();
+
         //Delegates and Signatory Number
         this.dels = delegates.map((del) => new Delegate(del));
         this.signum = 0;
@@ -153,6 +161,9 @@ class State {
                 this.speakers.nextSpeaker();
         }
         this.resetTimer();
+        if (state.config.autoplay) {
+            this.playTimer();
+        }
         // socket.emit("nextSpeaker");
     }
 
