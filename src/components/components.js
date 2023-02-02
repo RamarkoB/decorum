@@ -92,7 +92,9 @@ function SpeakerDiv(props) {
     }
 
     function handleClick() {
-        searchInput.current.focus();
+        if (searchInput.current) {
+            searchInput.current.focus();
+        }
     }
 
     const presentDels = (state.getPresent().length > 0) ?

@@ -1,4 +1,4 @@
-import { Vote, Speaker } from "./structs";
+import { Vote, SpeakersList } from "./structs";
 import { state } from "./state";
 
 //Directive Classes
@@ -30,10 +30,7 @@ class Directive {
     }
 
     genSpeakersList(num) {
-        this.speakers = [];
-        for (let i = 0; i < num * 2; i ++) {
-            this.speakers.push(new Speaker());
-        }
+        this.speakers = new SpeakersList(num * 2);
     }
 
     getSpeakersList(){
@@ -44,13 +41,13 @@ class Directive {
         if (this.speakers === null){
             return [];
         } else {
-            return this.speakers;
+            return this.speakers.speakers;
         }
     }
 
     getSpeaker(num){
-        if (this.speakers[num].hasDel) {
-            return this.getSpeakersList().speakers[num].getDelegate().getName();
+        if (this.speakers.speakers[num].hasDel) {
+            return this.speakers.getName(num);
         } else {
             switch (num % 2) {
                 case 0: return "For Speaker " + (Math.ceil(num / 2) + 1);
@@ -200,7 +197,7 @@ class DirState {
     //directive speaker methods
     makeDirSpeakersList(num, order = DirOrder.introduced){
         this.currDirectives.forEach((dir) => {dir.genSpeakersList(num)})
-        this.speakers = this.getCurrDirectives(order).map((dir) => dir.speakers).flat(1);
+        this.speakers = this.getCurrDirectives(order).map((dir) => dir.speakers.speakers).flat(1);
         this.numSpeakers = this.speakers.length;
         this.speakerNum = 0;
     }
@@ -211,17 +208,17 @@ class DirState {
 
     nextSpeaker() {
         if (this.speakerNum < this.numSpeakers) {
-            this.speakers[this.speakerNum].speak();
+            this.speakers.speakers[this.speakerNum].speak();
             this.speakerNum++;
-            return this.speakers[this.speakerNum];
+            return this.speakers.speakers[this.speakerNum];
         }
     }
 
     lastSpeaker() {
         if (this.speakerNum > 0) {
             this.speakerNum--;
-            this.speakers[this.speakerNum].unspeak();
-            return this.speakers[this.speakerNum];
+            this.speakers.speakers[this.speakerNum].unspeak();
+            return this.speakers.speakers[this.speakerNum];
         }
     }
 }

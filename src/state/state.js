@@ -6,6 +6,8 @@ import committees from "./committees";
 class Config {
     constructor() {
         this.autoplay = true;
+        this.committeeName = null;
+        // this.committeeType = "Crisis";
     }
 }
 
