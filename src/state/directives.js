@@ -208,9 +208,9 @@ class DirState {
 
     nextSpeaker() {
         if (this.speakerNum < this.numSpeakers) {
-            this.speakers.speakers[this.speakerNum].speak();
+            this.speakers[this.speakerNum].speak();
             this.speakerNum++;
-            return this.speakers.speakers[this.speakerNum];
+            return this.speakers[this.speakerNum];
         }
     }
 

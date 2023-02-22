@@ -179,26 +179,23 @@ function TimerDiv() {
       </div>
   }
 
-  return  <div>
-              <div className={state.getTimerStatus() === Status.Done ? "timerDiv pink" : "timerDiv"}>
-                  <div className="timer py-4" key="timer">
-                      {timerNums}
-                  </div>
-                  <ul className="list-inline">
-                      <li className="list-inline-item">
-                          <button type="button" className="btn btn-demo" onClick={reset}>Reset</button>
-                      </li>
-                      <li className="list-inline-item">
-                          <button type="button" className="btn btn-demo" onClick={buttonCheck}>{statusCheck()}</button>
-                      </li>
-                  </ul>
-                  {state.currentMotion.type === Motions.Unmod ? []:
-                  state.config.autoplay? 
-                  <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = false}}>Turn Off Autoplay on Next Speaker</button>:
-                  <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = true}}>Turn On Autoplay on Next Speaker</button>
-                  }
-              </div>
-          </div>
+  return    <div className={state.getTimerStatus() === Status.Done ? "timerDiv pink" : "timerDiv"}>
+                <div className="timer py-4" key="timer">
+                    {timerNums}
+                </div>
+                <ul className="list-inline">
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={reset}>Reset</button>
+                    </li>
+                    <li className="list-inline-item">
+                        <button type="button" className="btn btn-demo" onClick={buttonCheck}>{statusCheck()}</button>
+                    </li>
+                </ul>
+                {state.currentMotion.type === Motions.Unmod ? []: state.config.autoplay? 
+                    <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = false}}>Turn Off Autoplay on Next Speaker</button>:
+                    <button id="autoplay" className="btn" onClick={() => {state.config.autoplay = true}}>Turn On Autoplay on Next Speaker</button>
+                }
+            </div>
       
 }
 
