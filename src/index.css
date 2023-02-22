@@ -292,7 +292,8 @@ input:invalid {
     width: 100%;
     padding: 0.5rem 2rem !important;
     margin: 0;
-    border-radius: 0!important;
+    border-top-left-radius: 0!important;
+    border-top-right-radius: 0!important;
     border: none;
     border-top:  black solid 2px;
     background: black;
@@ -300,6 +301,14 @@ input:invalid {
     text-transform: uppercase;
     font-weight: bold !important;
     font-size: 14px; 
+}
+
+.add-motion, #directivesList #add-directive {
+    border-radius: 0;
+}
+
+#autoplay {
+    border-radius: 0.8rem
 }
 
 .add-motion:hover, #directivesList #add-directive:hover, #autoplay:hover {
