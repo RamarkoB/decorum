@@ -158,7 +158,7 @@ p.motion-input:last-of-type {
 
 /* Timer CSS */
 .timerDiv {
-    margin: 15px 5px;
+    margin: 0px 5px 15px;
     border-radius: 1rem;
     border: black 2px solid;
     text-align: center;
@@ -419,6 +419,10 @@ input:invalid {
 
 #dirSpeakersList .dropdown:not(:last-of-type) {
     padding-bottom: 10px;
+}
+
+.dir-speaker {
+    cursor: default!important;
 }
 
 button {

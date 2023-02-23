@@ -46,7 +46,7 @@ function DirVoteSpeakDiv(props) {
         <SpeakerDiv parent={props.dir} spoken={speaker.hasSpoken()} name={props.dir.getSpeaker(index)} index={index} key={index}/>
     );
 
-    return  <div className='card mini'>
+    return  <div className='card dir-speaker mini'>
                 <p>{props.dir.getName()}</p>
                 {speakers}
             </div>

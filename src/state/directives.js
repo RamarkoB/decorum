@@ -217,8 +217,8 @@ class DirState {
     lastSpeaker() {
         if (this.speakerNum > 0) {
             this.speakerNum--;
-            this.speakers.speakers[this.speakerNum].unspeak();
-            return this.speakers.speakers[this.speakerNum];
+            this.speakers[this.speakerNum].unspeak();
+            return this.speakers[this.speakerNum];
         }
     }
 }
