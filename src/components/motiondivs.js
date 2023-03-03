@@ -5,7 +5,7 @@ import { Motions, ExtendMod, ExtendUnmod, Voting, Introduce, Unmod, StrawPoll, R
 import { Vote } from "../state/structs"
 import { DirOrder } from "../state/directives";
 import { stringify, VoteModule } from "./components"
-import { state } from "./../state/state"
+import { state, clickCheck } from "./../state/state"
 
 
 //Input Divs
@@ -20,22 +20,22 @@ function ChooseDirOrder(props) {
                     </div>
                 </button>
                 <div className="dropdown-menu">
-                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.introduced)}>
+                    <button className="dropdown-item text-center text-uppercase" onClick={clickCheck(() => props.setDirOrder(DirOrder.introduced))}>
                         Introduced
                     </button>
-                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.revIntroduced)}>
+                    <button className="dropdown-item text-center text-uppercase" onClick={clickCheck(() => props.setDirOrder(DirOrder.revIntroduced))}>
                         Reverse Introduced
                     </button>
-                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.alphabetical)}>
+                    <button className="dropdown-item text-center text-uppercase" onClick={clickCheck(() => props.setDirOrder(DirOrder.alphabetical))}>
                         Alphabetical
                     </button>
-                    <button className="dropdown-item text-center text-uppercase" onClick={() => props.setDirOrder(DirOrder.revAlphabetical)}>
+                    <button className="dropdown-item text-center text-uppercase" onClick={clickCheck(() => props.setDirOrder(DirOrder.revAlphabetical))}>
                         Reverse Alphabetical
                     </button>
                 </div>
             </div>
 }
-
+ 
 function MakeExtendModDiv(props) {
     const [min, setMin] = useState("");
     const [sec, setSec] = useState("");
@@ -63,7 +63,7 @@ function MakeExtendModDiv(props) {
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSec(e.target.value)} value={sec}/> Sec 
                 </p>
             </div>, 
-            <button className='btn add-motion' onClick={addMotion} key="modButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="modButton">
                     {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -93,7 +93,7 @@ function MakeExtendUnmodDiv(props) {
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSec(e.target.value)} value={sec}/> Sec 
                 </p>
             </div>, 
-            <button className='btn add-motion' onClick={addMotion} key="UnmodButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="UnmodButton">
                     {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -133,7 +133,7 @@ function MakeVotingDiv(props) {
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSpeakers(e.target.value)} value={speakers}/> Speakers For/Against 
                 </p>
             </div>,
-            <button className='btn add-motion' onClick={addMotion} key="votingButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="votingButton">
                     {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -161,7 +161,7 @@ function MakeUnmodDiv(props) {
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSec(e.target.value)} value={sec}/> Sec 
                 </p>
             </div>, 
-            <button className='btn add-motion' onClick={addMotion} key="UnmodButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="UnmodButton">
                     {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -184,7 +184,7 @@ function MakeRoundRobinDiv(props) {
                     <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSpeakingTime(e.target.value)} value={speakingTime}/> Speaking Time 
                 </p>
             </div>,
-            <button className='btn add-motion' onClick={addMotion} key="roundRobinButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="roundRobinButton">
                 {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -223,7 +223,7 @@ function MakeModDiv(props) {
                 <p className="motion-input">
                 <input placeholder="00" maxLength="2" pattern="\d*" onChange={(e) => setSpeakingTime(e.target.value)} value={speakingTime}/> Speaking Time </p>
             </div>, 
-            <button className='btn add-motion' onClick={addMotion} key="modButton">
+            <button className='btn add-motion' onClick={clickCheck(addMotion)} key="modButton">
                 {props.error ? props.error: "Add Motion"}
             </button>]
 }
@@ -289,7 +289,7 @@ function MakeMotionDiv(props) {
                                                         setError={setError} 
                                                         key="roundRobinInputs"/>;
             default:                    
-                return  <button className='btn add-motion' onClick={addMotion} key="button">
+                return  <button className='btn add-motion' onClick={clickCheck(addMotion)} key="button">
                             {props.error ? props.error: "Add Motion"}
                         </button>;
         }
@@ -335,9 +335,9 @@ function MakeMotionDiv(props) {
 
     return  <div className={error? "card mini motion pink" : "card mini motion"} >
                 {expanded? 
-                    [<p key="Motion Name" onClick={switchExpand}>{props.motion}</p>,
+                    [<p key="Motion Name" onClick={clickCheck(switchExpand)}> {props.motion}</p>,
                     <div key="dropdown" className="dropdown">
-                        <button data-bs-toggle="dropdown" onClick={handleClick}>
+                        <button data-bs-toggle="dropdown" onClick={clickCheck(handleClick)}>
                             <div className="motionDelegate">
                                 { delegate ?
                                     <p>{delegate}</p>:
@@ -350,16 +350,19 @@ function MakeMotionDiv(props) {
                         </div>
                     </div>,
                     getMotionInput()] 
-                    : <p onClick={switchExpand}>{props.motion}</p>}
+                    : <p onClick={clickCheck(switchExpand)}>{props.motion}</p>}
             </div>
 }
 
 //Motion Divs
 function ExtendModDiv(props) {
-    return  <p className="motion-text">
+    return  [<p className="motion-text">
                 <span>{stringify(props.motion.min)}</span> Min 
                 <span>{stringify(props.motion.sec)}</span> Sec 
-            </p>     
+            </p>,     
+            <p className="motion-text" key="speakers">
+                <span>({stringify(props.motion.numSpeakers)}</span> Speakers<span className="speaker-paren">)</span>
+            </p>]
 }
 
 function ExtendUnmodDiv(props) {
@@ -444,5 +447,67 @@ function MotionDiv(props) {
             </div>
 }
 
+function makeSubtimeline(list){
+    const subtimeline =  list.map((node, index) => 
+    <div className="node" key={index}>
+        <div className='line' />
+        <div className='subevent'>
+            <div className="subline">
+                <div className='line' />
+                <div className='circle' />
+                <div className='line' />
+            </div>
+            <div className='card mini'>{node}</div>
+        </div>
+    </div>);
+
+    return <div className='subtimeline'>
+        {subtimeline}
+    </div>
+}
+
+function TimelineDiv(props) {
+    function getMotion() {
+        switch (props.motion.type) {
+            case Motions.ExtendMod:     return <ExtendModDiv motion={props.motion} />;
+            case Motions.ExtendUnmod:   return <ExtendUnmodDiv motion={props.motion} />;
+            case Motions.Voting:        return <VotingDiv motion={props.motion} />;
+            case Motions.Unmod:         return <UnmodDiv motion={props.motion} />;
+            case Motions.Mod:           return <ModDiv motion={props.motion} />;
+            case Motions.RoundRobin:    return <RoundRobinDiv motion={props.motion} />;
+            default:                    return [];
+        }
+    }
+
+    function getSubTimeline() {
+        switch (props.motion.type) {
+            case Motions.Mod: case Motions.ExtendMod: case Motions.RoundRobin:
+                return makeSubtimeline(props.motion.speakers.speakers.map(speaker => speaker.getName()));
+            case Motions.Voting: case Motions.IntroduceVoting:
+                return props.motion.directives.map(dir => 
+                <div class="eventDirective">
+                    <div className="line" />
+                    <div className="card timelineExtend">
+                        <h3>{dir.name}</h3>
+                    </div>
+                    {makeSubtimeline(dir.getSpeakerNames())}
+                </div>);
+            default: return [];
+        }
+    }
+
+    return  [<div className=
+                {(props.motion.type === Motions.ExtendUnmod || props.motion.type === Motions.ExtendMod) 
+                ? "card timelineExtend" : "card"}>
+                <h3>{props.motion.type}</h3>
+                { props.motion.delegate ?
+                    <p className='propose-text'>Proposed by <span>{props.motion.delegate}</span></p>:
+                    <p className='propose-text grey-text'> No Delegate Chosen </p>
+                }
+                {getMotion()}
+            </div>,
+            getSubTimeline()]
+}
+
 //Exports
-export { MakeMotionDiv, MotionDiv};
+export { MakeMotionDiv, MotionDiv, TimelineDiv};

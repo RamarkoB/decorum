@@ -7,6 +7,7 @@ class Config {
     constructor() {
         this.autoplay = true;
         this.committeeName = null;
+        this.chair = false;
         // this.committeeType = "Crisis";
     }
 }
@@ -15,6 +16,7 @@ class Config {
 class State {
     constructor(delegates){
         this.config = new Config();
+        this.timeline = [];
 
         //Delegates and Signatory Number
         this.dels = delegates.map((del) => new Delegate(del));
@@ -112,13 +114,7 @@ class State {
     }
 
     getPresent() {
-        let present = [];
-        this.dels.forEach((del) => {
-            if (del.getAttendence() === Attendence.Present) {
-                present.push(del);
-            }
-        });
-        return present;
+        return this.dels.filter((del => (del.getAttendence() === Attendence.Present)))
     }
 
     filterPresent(search) {
@@ -271,6 +267,7 @@ class State {
         }
     }
 
+
     //Generate Motion Methods
     genUnmod(minutes, seconds) {
         this.setTimer(minutes, seconds);
@@ -282,6 +279,7 @@ class State {
         this.setTimer(0, speakingTime);
         this.pauseTimer();
         this.makeSpeakersList(numSpeakers);
+        this.currentMotion.addSpeakers(this.speakers);
         this.toPage(Page.speakers);
     }
 
@@ -289,6 +287,7 @@ class State {
         this.setTimer(0, speakingTime);
         this.pauseTimer();
         this.makeDirSpeakersList(numSpeakers, order);
+        this.currentMotion.addDirectives(this.dirState.getCurrDirectives(order));
         this.toPage(Page.directives);
     }
 
@@ -388,6 +387,7 @@ class State {
     passMotion(index){
         const motion = this.motions[index];
         motion.pass();
+        this.timeline.push(motion);
         this.currentMotion = motion;
 
         switch (motion.type) {
@@ -431,6 +431,7 @@ class State {
         this.motions = [];
     }
 
+
     //Directive Methods
     addDirective(name) {
         switch (this.getCurrentMotionType()) {
@@ -451,7 +452,6 @@ class State {
         this.dirState.fail(index);
     }
 
-
     getDirectives(order = DirOrder.introduced) {
         return this.dirState.getCurrDirectives(order);
     }
@@ -471,7 +471,6 @@ class State {
     clearDirectives(){
         this.dirState.clear()
     } 
-
 
     makeDirSpeakersList(num, order){
         this.dirState.makeDirSpeakersList(num, order);
@@ -507,4 +506,24 @@ function setState(comm) {
     state = new State(committees[comm]);
 }
 
-export {State, state, genDelegates, setState };
+function clickCheck(func) {
+    if (state){
+        if (state.config.chair) {
+            return func;
+        }
+    }
+    
+    return (() => {console.log("Nuh Uh")});
+}
+
+function classCheck(classes) {
+    if (state){
+        if (state.config.chair) {
+            return classes;
+        }
+    }
+    
+    return (classes + " off");
+}
+
+export {State, state, genDelegates, setState, clickCheck, classCheck};

@@ -75,6 +75,18 @@ h3 {
     border-right: 3px solid black;
 }
 
+.off div {
+    cursor: default!important;
+}
+
+.off button:not(.speakerbtn), .off ul, .off .dropdown-menu, .off.shrink {
+    display: none;
+}
+
+.off.grow {
+    width: 100%
+}
+
 /* Dropdown CSS */
 .dropdown-menu {
     border: 2px black solid;
@@ -272,10 +284,104 @@ input:invalid {
     font-size: 25px;
 }
 
+/* Stats CSS */
+#statsMain {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+#timeline {
+    margin: auto;
+    width: 95%;
+}
+
+#timeline .card {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#timeline .timelineExtend {
+    width: 85%;
+    margin: auto;
+}
+
+.line {
+    height: 10px;
+    width: 0;
+    outline: black 1px solid;
+    margin: 0 auto;
+}
+
+.circle {
+    height: 50%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    outline: black 2px solid;
+    margin: 1px auto;
+}
+
+.node .card.mini {
+    cursor: default;
+    width: 40%;
+}
+
+.subevent {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.subline {
+    height: 25px;
+    aspect-ratio: 1;
+    margin: auto;
+}
+
+.subline .line {
+    height: 25%;
+}
+
+.event:last-of-type .line:last-of-type {
+   display: none;
+}
+
+.node:not(:last-of-type) .line:last-of-type {
+    display: block;
+}
+
+.event:last-of-type .eventDirective:not(:nth-last-child(2)) .line:last-of-type {
+    display: block;
+}
+
+.event:last-of-type .eventDirective:nth-last-child(2) .line:last-of-type {
+    display: none;
+}
+
+.event:last-of-type .eventDirective:nth-last-child(2) .node:not(:last-of-type) .line:last-of-type {
+    display: block;
+}
+
+.node:nth-of-type(odd) .subevent {
+    flex-direction: row-reverse;
+}
+
+.node:nth-of-type(odd) .subevent .subline {
+    margin-right: calc(50% - 12.5px);
+}
+
+.node:nth-of-type(even) .subevent .subline {
+    margin-left: calc(50% - 12.5px);
+}
+
+.node:nth-of-type(odd) .subevent .card.mini {
+    margin-left: 7.5%;
+}
+
+.node:nth-of-type(even) .subevent .card.mini {
+    margin-right: 7.5%;
+}
 
 /* Motions CSS */
-
-
 #name-directive {
     width: 100%;
     text-align: center;

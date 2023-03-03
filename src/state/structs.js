@@ -129,6 +129,10 @@ class SpeakersList {
         return this.speakers;
     }
 
+    getNames(){
+        return this.speakers.map(speaker => speaker.getName());
+    }
+
     hasNext(){
         return (this.speakerNum < this.NumSpeakers);
     }
@@ -254,7 +258,8 @@ const Page = {
     motions: "motions",
     directives: "directives",
     speakers: "speakers",
-    unmod: "unmod",
+    unmod: "unmoderated caucus",
+    statistics: "statistics"
 }
 
 export {Attendence, Vote, Delegate, Speaker, SpeakersList, Status, Timer, Page};

@@ -2,6 +2,7 @@ import { state, setState } from "./state/state"
 import { Page } from "./state/structs"
 import { DelegatePage, UnmodPage, SpeakersPage, DirectivesPage, MotionsPage, VotingPage } from "./components/components"
 import { Motions } from "./state/motions";
+import StatsPage from "./components/stats";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import committees from "./state/committees";
 
@@ -65,6 +66,7 @@ function App(){
       }
       case Page.directives: return <DirectivesPage />
       case Page.motions: return <MotionsPage />
+      case Page.statistics: return <StatsPage />
 
       // no default
     }
@@ -74,26 +76,14 @@ function App(){
 }
 
 function Footer() {
-  if (state) {
-    function parse(){
-      switch (state.page) {
-          case Page.delegates: return "Delegates"
-          case Page.unmod: return "Unmoderated Caucus"
-          case Page.speakers: return "Speakers"
-          case Page.directives: return "Directives"
-          case Page.motions: return "Motions"
-
-          // no default
-      }
-  }
-  
+  if (state) {  
   const motionsDropdown = state.getOtherPages()
       .map(page =>  <button className="dropdown-item text-center text-uppercase" onClick={() => state.toPage(page)} key={page}>{page}</button>)
 
   return  <div id="footerDiv" className="dropdown">
               <button data-bs-toggle="dropdown">
                 <h1 className="header-txt fw-bold text-uppercase">
-                    {parse()}
+                    {state.page}
                     <i className="bi bi-chevron-up"></i>
                 </h1>
             </button>

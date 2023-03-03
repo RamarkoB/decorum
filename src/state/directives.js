@@ -29,6 +29,10 @@ class Directive {
         return this.name;
     }
 
+    getSpeakerNames(){
+        return this.speakers.getNames();
+    }
+
     genSpeakersList(num) {
         this.speakers = new SpeakersList(num * 2);
     }

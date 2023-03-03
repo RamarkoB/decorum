@@ -48,6 +48,7 @@ class ExtendMod extends Motion {
         this.overallTime = min * 60 + sec;
         this.speakingTime = speakingTime;
         this.numSpeakers = this.calcSpeakers();
+        this.speakers = null;
     }
 
     calcSpeakers() {
@@ -56,6 +57,10 @@ class ExtendMod extends Motion {
         } else {
             return (this.overallTime / this.speakingTime)
         }
+    }
+
+    addSpeakers(speakers) {
+        this.speakers = speakers;
     }
 }
 
@@ -71,6 +76,11 @@ class ExtendUnmod extends Motion {
 class IntroduceVoting extends Motion {
     constructor(delegate) {
         super(delegate, Motions.IntroduceVoting, 1)
+        this.directives = null;
+    }
+
+    addDirectives(directives) {
+        this.directives = directives;
     }
 }
 
@@ -80,12 +90,22 @@ class Voting extends Motion {
         this.order = order;
         this.numSpeakers = numSpeakers;
         this.speakingTime = speakingTime;
+        this.directives = null;
+    }
+
+    addDirectives(directives) {
+        this.directives = directives;
     }
 }
 
 class Introduce extends Motion {
     constructor(delegate) {
         super(delegate, Motions.Introduce, 3);
+        this.directives = null;
+    }
+
+    addDirectives(directives) {
+        this.directives = directives;
     }
 }
 
@@ -108,6 +128,11 @@ class RoundRobin extends Motion {
     constructor(delegate, speakingTime) {
         super(delegate, Motions.RoundRobin, 6);
         this.speakingTime = speakingTime;
+        this.speakers = null;
+    }
+
+    addSpeakers(speakers) {
+        this.speakers = speakers;
     }
 }
 
@@ -120,6 +145,7 @@ class Mod extends Motion {
         this.overallTime = min * 60 + sec;
         this.speakingTime = speakingTime;
         this.numSpeakers = this.calcSpeakers();
+        this.speakers = null;
     }
 
     calcSpeakers() {
@@ -128,6 +154,10 @@ class Mod extends Motion {
         } else {
             return (this.overallTime / this.speakingTime)
         }
+    }
+
+    addSpeakers(speakers) {
+        this.speakers = speakers;
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VoteModule, SpeakerDiv } from "./components"
-import { state } from '../state/state';
+import { state, clickCheck } from '../state/state';
 import { Vote } from "../state/structs"
 
 //Directive Div
@@ -16,7 +16,7 @@ function MakeDirectiveDiv() {
                 <p className="motion-input">
                     <input id="name-directive" placeholder="New Directive..." value={name} onChange={(e)=>setName(e.target.value)}/>
                 </p>
-                <button id="add-directive" className="btn" onClick={addDirective}>Add Directive</button>
+                <button id="add-directive" className="btn" onClick={clickCheck(addDirective)}>Add Directive</button>
             </div>
 }
 
@@ -31,12 +31,8 @@ function DirectiveDiv(props){
         }
     }
 
-    function updateName(name){
-        props.dir.name = name;
-    }
-
     return  <div className={statusClass()}>
-                <h3><input placeholder="New Directive..." value={props.dir.name} onChange={(e)=>updateName(e.target.value)}/></h3>
+                <h3>{props.dir.name}</h3>
                 <VoteModule index={props.index} removable={props.removable} type={"directive"}/>
             </div>
 }
