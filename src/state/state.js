@@ -7,7 +7,7 @@ class Config {
     constructor() {
         this.autoplay = true;
         this.committeeName = null;
-        this.chair = false;
+        this.chair = true;
         // this.committeeType = "Crisis";
     }
 }

@@ -58,6 +58,10 @@ h3 {
     cursor: pointer;
 }
 
+.committee:hover {
+    transform: translateY(-5px);
+}
+
 .side {
     text-align: center;
     height: 100%;
@@ -132,6 +136,14 @@ h3 {
     margin-bottom: 10px;
 }
 
+.card.mini {
+    cursor: pointer;
+}
+
+.card.mini:hover {
+    transform: translateY(-5px);
+}
+
 .card.mini p:not(.motion-input) {
     color:black;
     margin: 10px;
@@ -145,10 +157,6 @@ p.motion-input:last-of-type {
 .order-select {
     border-top: 0!important;
     border-bottom: 2px solid black;
-}
-
-.card.mini {
-    cursor: pointer;
 }
 
 .card:not(.mini) h3 {
