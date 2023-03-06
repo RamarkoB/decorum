@@ -502,8 +502,9 @@ function genDelegates(num){
 
 let state;
 
-function setState(comm) {
+function setState(comm, chair) {
     state = new State(committees[comm]);
+    state.config.chair = chair;
 }
 
 function clickCheck(func) {

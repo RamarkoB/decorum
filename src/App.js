@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { state, setState } from "./state/state"
 import { Page } from "./state/structs"
 import { DelegatePage, UnmodPage, SpeakersPage, DirectivesPage, MotionsPage, VotingPage } from "./components/components"
@@ -9,7 +10,7 @@ import committees from "./state/committees";
 
 function CommDiv(props) {
   return  <div className="col-4">
-            <div className="card committee" onClick={() => setState(props.comm)}>
+            <div className="card committee" onClick={() => props.setReady(props.comm)}>
               <h3>{props.comm}</h3>
             </div>
           </div>
@@ -17,6 +18,7 @@ function CommDiv(props) {
 
 
 function StatePage() {
+  const [isReady, setReady] = useState(null);
   let commNames = Object.keys(committees);
   const comms = [];
 
@@ -31,25 +33,29 @@ function StatePage() {
   const commDivs = comms.map((commRow, index) => {
     switch(commRow.length) {
       case 1: return  <div className="row" key={"row" + index}>
-                        <CommDiv comm={commRow[0]} key= {commRow[0]} />
+                        <CommDiv comm={commRow[0]} setReady={setReady} key={commRow[0]} />
                         <div className="col-8"></div>
                       </div>
       case 2: return  <div className="row" key={"row" + index}>
-            <CommDiv comm={commRow[0]} key= {commRow[0]} />
-            <CommDiv comm={commRow[1]} key= {commRow[1]} />
+            <CommDiv comm={commRow[0]} setReady={setReady} key= {commRow[0]} />
+            <CommDiv comm={commRow[1]} setReady={setReady} key= {commRow[1]} />
           </div>
 
       default: return  <div className="row" key={"row" + index}>
-      <CommDiv comm={commRow[0]} key= {commRow[0]} />
-      <CommDiv comm={commRow[1]} key= {commRow[1]} />
-      <CommDiv comm={commRow[2]} key= {commRow[2]} />
+      <CommDiv comm={commRow[0]} setReady={setReady} key= {commRow[0]} />
+      <CommDiv comm={commRow[1]} setReady={setReady} key= {commRow[1]} />
+      <CommDiv comm={commRow[2]} setReady={setReady} key= {commRow[2]} />
     </div>
     }
   })
 
+  const buttons = <div id="chairChoose">
+      <div className='card' onClick={() => setState(isReady, true)}><h3>Chair</h3></div>
+      <div className='card' onClick={() => setState(isReady, false)}><h3>Nah</h3></div>
+  </div>
 
   return  <div className="side">
-            {commDivs}
+            {isReady ? buttons : commDivs}
           </div>
 }
 
