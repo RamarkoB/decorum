@@ -36,10 +36,14 @@ footer {
 
 
 /* Universal CSS */
+html, body {
+    overflow: hidden;
+}
+
 body {
     background-color: #FEF9F3;
     font-family: Jost;
-    overflow: hidden;
+    position: relative;
 }
 
 section {
@@ -158,7 +162,6 @@ div:not(.off) .card.mini:hover {
 .card:not(.mini) {
     margin: 0px 5px 15px;
     border-radius: 1rem;
-    text-align: center;
     background-color: inherit;
     padding: 10px;
 }

@@ -10,7 +10,8 @@ import committees from "./state/committees";
 
 function CommDiv(props) {
   return  <div className="col-4">
-            <div className="card committee" onClick={() => props.setReady(props.comm)}>
+            {/* <div className="card committee" onClick={() => props.setReady(props.comm)}> */}
+            <div className="card committee" onClick={() => setState(props.comm, true)}>
               <h3>{props.comm}</h3>
             </div>
           </div>
