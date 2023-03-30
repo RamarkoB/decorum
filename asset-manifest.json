@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/decorum/static/css/main.cc508816.css",
-    "main.js": "/decorum/static/js/main.078f6231.js",
+    "main.css": "/decorum/static/css/main.c370e5a8.css",
+    "main.js": "/decorum/static/js/main.9ad908ac.js",
     "static/js/787.b0460202.chunk.js": "/decorum/static/js/787.b0460202.chunk.js",
     "static/media/bootstrap-icons.woff?": "/decorum/static/media/bootstrap-icons.6959d0d983ee318f8880.woff",
     "static/media/bootstrap-icons.woff2?": "/decorum/static/media/bootstrap-icons.b2e5aab643c6f0fd2da6.woff2",
     "index.html": "/decorum/index.html",
-    "main.cc508816.css.map": "/decorum/static/css/main.cc508816.css.map",
-    "main.078f6231.js.map": "/decorum/static/js/main.078f6231.js.map",
+    "main.c370e5a8.css.map": "/decorum/static/css/main.c370e5a8.css.map",
+    "main.9ad908ac.js.map": "/decorum/static/js/main.9ad908ac.js.map",
     "787.b0460202.chunk.js.map": "/decorum/static/js/787.b0460202.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cc508816.css",
-    "static/js/main.078f6231.js"
+    "static/css/main.c370e5a8.css",
+    "static/js/main.9ad908ac.js"
   ]
 }
